@@ -1,16 +1,19 @@
 #include <iostream>
 #include <string>
+#include <beacondbg.h>
 
 #include "clicmd.h"
 #include "quit.h"
 #include "breakpoints.h"
+#include "load.h"
 
-int cli()
+int cli(beacondbg *emu)
 {
     CliCmd::registerCommand(new Help());
     CliCmd::registerCommand(new Quit());
     CliCmd::registerCommand(new Breakpoint());
     CliCmd::registerCommand(new BreakpointList());
+    CliCmd::registerCommand(new LoadCommand());
 
     while(true)
     {
@@ -24,7 +27,11 @@ int cli()
             std::cout << "Invalid command " << input << std::endl;
         } else {
             std::cout << "Command " << (*cmd)->help() << " ready." << std::endl;
-            (*cmd)->run();
+
+            if (*cmd != nullptr) {
+                (*cmd)->run(emu);
+                delete (*cmd);
+            }
         }
     }
     

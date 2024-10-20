@@ -8,6 +8,7 @@ typedef void* LPVOID;
 #include <vector>
 #include <string>
 #include <iostream>
+#include <beacondbg.h>
 
 #include "clicmd.h"
 #include "breakpoints.h"
@@ -20,18 +21,22 @@ struct BREAKPOINT
     std::string symbolName; /* breakpoint function name.. can be Library!SymbolName or SymbolName or just it's address */
 };
 
-
 std::string Breakpoint::help()
 {
     return std::string("Set a breakpoint");
 }
 
-bool Breakpoint::run()
+bool Breakpoint::run(beacondbg *emu)
 {
     std::cout << "Not yet implemented." << std::endl;
     return true;
 }
 
+
+CliCmd* Breakpoint::create(std::vector<std::string> args)
+{
+    return new Breakpoint();
+}
 
 std::string Breakpoint::command()
 {
@@ -48,7 +53,7 @@ std::string BreakpointList::command()
     return std::string("bl");
 }
 
-bool BreakpointList::run()
+bool BreakpointList::run(beacondbg *emu)
 {
     int i = 0;
 
@@ -60,4 +65,9 @@ bool BreakpointList::run()
     }
 
     return true;
+}
+
+CliCmd* BreakpointList::create(std::vector<std::string> args)
+{
+    return new BreakpointList();
 }

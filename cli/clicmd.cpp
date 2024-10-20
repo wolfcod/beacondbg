@@ -2,6 +2,7 @@
 #include <optional>
 #include <sstream>
 #include <iostream>
+#include <beacondbg.h>
 
 #include "clicmd.h"
 
@@ -38,10 +39,13 @@ std::optional<CliCmd *> CliCmd::getCommand(std::string input)
         return std::nullopt;
     }
 
-    return it->second;
+    tokens.erase(tokens.begin());
+
+    CliCmd *instance = it->second->create(tokens);
+    return instance;
 }
 
-bool Help::run()
+bool Help::run(beacondbg *emu)
 {
     std::map<std::string, CliCmd*>::iterator it = commands.begin();
 
@@ -50,6 +54,11 @@ bool Help::run()
         std::cout << it->second->command() << " " << it->second->help() << std::endl;
     }
     return true;
+}
+
+CliCmd *Help::create(std::vector<std::string> args)
+{
+    return new Help();
 }
 
 std::string Help::command()

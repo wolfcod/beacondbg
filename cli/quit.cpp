@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
+#include <beacondbg.h>
 
 #include "clicmd.h"
 #include "quit.h"
@@ -26,7 +27,12 @@ std::string Quit::command()
     return std::string("quit");
 }
 
-bool Quit::run()
+CliCmd* Quit::create(std::vector<std::string> args)
+{
+    return new Quit();
+}
+
+bool Quit::run(beacondbg *emu)
 {
     std::exit(0);
 }

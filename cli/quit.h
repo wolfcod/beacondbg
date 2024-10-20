@@ -7,5 +7,7 @@ public:
 
     std::string help() override;
     std::string command() override;
-    bool run() override;
+
+    CliCmd* create(std::vector<std::string> args) override;
+    bool run(beacondbg *emu) override;
 };

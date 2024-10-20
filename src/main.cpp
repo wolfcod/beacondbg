@@ -1,5 +1,6 @@
 #include <tclap/CmdLine.h>
 #include <config.h>
+#include <beacondbg.h>
 #include <cli.h>
 
 int main(int argc, char *argv[])
@@ -11,6 +12,8 @@ int main(int argc, char *argv[])
 
     cmdLine.parse(argc, argv);
 
-    cli();
+    beacondbg emu;
+
+    cli(&emu);
     return 0;
 }

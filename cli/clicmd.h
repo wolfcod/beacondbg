@@ -3,6 +3,8 @@
 
 #include <string>
 
+class beacondbg;
+
 class CliCmd
 {
     public:
@@ -12,7 +14,12 @@ class CliCmd
         static bool registerCommand(CliCmd *cmd);
         static std::optional<CliCmd*> getCommand(std::string input);
 
-        virtual bool run() = 0;
+        // This has to be used only in the final instance
+        virtual CliCmd* create(std::vector<std::string> args) = 0;
+
+        virtual bool run(beacondbg *emu) = 0;
+
+        virtual ~CliCmd() = default;
 };
 
 /** Help class share same object of clicmd.. they are accessing to the same data */
@@ -25,7 +32,10 @@ class Help : public CliCmd
         std::string help() override;
         std::string command() override;
 
-        bool run() override;
+        bool run(beacondbg *) override;
+        
+        CliCmd *create(std::vector<std::string> args) override;
+
 };
 
 #define CLI_CMD(x)    CliCmd::registerCommand(new x())
