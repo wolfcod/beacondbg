@@ -43,6 +43,8 @@
 #define VOID void
 #define LPVOID void*
 #define LPCVOID const void *
+#define TRUE 1
+#define FALSE 0
 
 #endif
 
@@ -361,7 +363,6 @@ DECLSPEC_IMPORT SIZE_T BeaconVirtualQuery(LPCVOID address, PMEMORY_BASIC_INFORMA
 DECLSPEC_IMPORT BOOL BeaconDuplicateHandle(HANDLE hSourceProcessHandle, HANDLE hSourceHandle, HANDLE hTargetProcessHandle, LPHANDLE lpTargetHandle, DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwOptions);
 DECLSPEC_IMPORT BOOL BeaconReadProcessMemory(HANDLE hProcess, LPCVOID lpBaseAddress, LPVOID lpBuffer, SIZE_T nSize, SIZE_T *lpNumberOfBytesRead);
 DECLSPEC_IMPORT BOOL BeaconWriteProcessMemory(HANDLE hProcess, LPVOID lpBaseAddress, LPCVOID lpBuffer, SIZE_T nSize, SIZE_T *lpNumberOfBytesWritten);
-
 /* Beacon Gate APIs */
 DECLSPEC_IMPORT VOID BeaconDisableBeaconGate();
 DECLSPEC_IMPORT VOID BeaconEnableBeaconGate();
