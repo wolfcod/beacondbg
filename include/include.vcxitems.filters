@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="tclap">
+      <UniqueIdentifier>{7fba8b3b-b2d9-4c4d-8f51-a5ab13d19048}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\Arg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ArgException.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ArgTraits.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\CmdLine.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\CmdLineInterface.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\CmdLineOutput.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\Constraint.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\DocBookOutput.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\HelpVisitor.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\IgnoreRestVisitor.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\MultiArg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\MultiSwitchArg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\OptionalUnlabeledTracker.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\sstream.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\StandardTraits.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\StdOutput.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\SwitchArg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\UnlabeledMultiArg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\UnlabeledValueArg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ValueArg.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ValuesConstraint.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\VersionVisitor.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\Visitor.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\XorHandler.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ZshCompletionOutput.h">
+      <Filter>tclap</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)tclap\Makefile.am">
+      <Filter>tclap</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)tclap\Makefile.in">
+      <Filter>tclap</Filter>
+    </None>
+  </ItemGroup>
+</Project>

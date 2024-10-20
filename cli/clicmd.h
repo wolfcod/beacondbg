@@ -2,6 +2,7 @@
 #define __CLICMD_H_
 
 #include <string>
+#include <optional>
 
 class beacondbg;
 

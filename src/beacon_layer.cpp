@@ -143,6 +143,7 @@ void    BeaconFormatPrintf(formatp * format, const char * fmt, ...)
 char *  BeaconFormatToString(formatp * format, int * size)
 {
     // not implemented
+    return NULL;
 }
 void    BeaconFormatFree(formatp * format)
 {
@@ -216,24 +217,17 @@ BOOL   toWideChar(char * src, wchar_t * dst, int max)
 return FALSE;
 }
 
-
-BOOL   BeaconInformation(PBEACON_INFO info)
-{
-return FALSE;
-}
-
-
 BOOL BeaconAddValue(const char * key, void * ptr)
 {
-return FALSE;
+    return FALSE;
 }
 void * BeaconGetValue(const char * key)
 {
-return NULL;
+    return NULL;
 }
 BOOL BeaconRemoveValue(const char * key)
 {
-return FALSE;
+    return FALSE;
 }
 
 

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{ec5ee909-1bc1-4ec9-9e60-9fdcabb2ffe6}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)beacon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)beacondbg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)cli.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)config.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\Arg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ArgException.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ArgTraits.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\CmdLine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\CmdLineInterface.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\CmdLineOutput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\Constraint.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\DocBookOutput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\HelpVisitor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\IgnoreRestVisitor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\MultiArg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\MultiSwitchArg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\OptionalUnlabeledTracker.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\sstream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\StandardTraits.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\StdOutput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\SwitchArg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\UnlabeledMultiArg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\UnlabeledValueArg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ValueArg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ValuesConstraint.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\VersionVisitor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\Visitor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\XorHandler.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ZshCompletionOutput.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)tclap\Makefile.am" />
+    <None Include="$(MSBuildThisFileDirectory)tclap\Makefile.in" />
+  </ItemGroup>
+</Project>

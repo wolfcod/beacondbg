@@ -1,6 +1,8 @@
 #ifndef __BEACONDBG_H_
 #define __BEACONDBG_H_
 
+#include <vector>
+
 class beacondbg
 {
 public:

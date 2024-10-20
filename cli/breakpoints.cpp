@@ -1,4 +1,5 @@
 #ifdef _WIN32
+#include <Windows.h>
 #else
 typedef void* HANDLE;
 typedef void* LPVOID;
