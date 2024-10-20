@@ -10,5 +10,10 @@ include_directories(../include)
 
 add_definitions(-D_UNICODE -DUNICODE)
 
-set(SOURCES cli.cpp)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(SOURCES cli.cpp clicmd.cpp breakpoints.cpp quit.cpp)
 add_library(beaconcli STATIC ${SOURCES})
