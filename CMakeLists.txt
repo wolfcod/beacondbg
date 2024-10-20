@@ -10,6 +10,7 @@ include_directories(include)
 
 add_definitions(-D_UNICODE -DUNICODE)
 add_subdirectory(cli)
+add_subdirectory(coff)
 
 set(SOURCES src/main.cpp)
 
@@ -20,5 +21,5 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(beacondbg ${SOURCES})
 
-add_dependencies(beacondbg beaconcli)
-target_link_libraries(beacondbg beaconcli)
+add_dependencies(beacondbg beaconcli coffloader)
+target_link_libraries(beacondbg beaconcli coffloader)

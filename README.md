@@ -50,3 +50,9 @@ From command line:
 The beacon output is directly printed on your prompt.
 If you need to test a beacon which requires admin privileges, you need to run `beacondbg` with admin privileges, or to run a beacon to gain more privileges before running the final beacon.
 
+## Notes
+
+COFFLoader (coff directory) for speeding up the process are Copyright of [trustedsec](https://trustedsec.com).
+The original source code is available on [GitHub](https://github.com/trustedsec/COFFLoader).\
+
+The source code is distributed to create a MOCK of this project.

@@ -24,7 +24,27 @@
  */
 #ifndef _BEACON_H_
 #define _BEACON_H_
+
+#ifdef _WIN32
 #include <windows.h>
+#else
+#include <stdint.h>
+
+#define DECLSPEC_IMPORT
+#define BOOL int
+#define PVOID void*
+#define HANDLE void*
+#define PROCESS_INFORMATION void*
+#define STARTUPINFO void*
+#define HMODULE void*
+#define SIZE_T size_t
+#define DWORD uint32_t
+#define DWORD64 uint64_t
+#define VOID void
+#define LPVOID void*
+#define LPCVOID const void *
+
+#endif
 
 #ifdef __cplusplus
 extern "C" {
