@@ -60,6 +60,11 @@ typedef struct {
 	int    size;     /* total size of this buffer */
 } datap;
 
+#ifdef __BEACONDBG__
+#undef DECLSPEC_IMPORT
+#define DECLSPEC_IMPORT
+#endif
+
 DECLSPEC_IMPORT void    BeaconDataParse(datap * parser, char * buffer, int size);
 DECLSPEC_IMPORT char *  BeaconDataPtr(datap * parser, int size);
 DECLSPEC_IMPORT int     BeaconDataInt(datap * parser);

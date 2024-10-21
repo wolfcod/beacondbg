@@ -35,5 +35,6 @@ bool RunCommand::run(beacondbg* emu)
     std::vector<unsigned char> args;
 
     emu->run(functionName_, args);
+    std::cout << std::endl;
     return true;
 }
