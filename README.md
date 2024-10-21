@@ -6,8 +6,13 @@ Some APIs accessed directly from the beacon are monitored (to track the beacon m
 THe beaocn is injected directly into the memory of the beacondbg (in the current version) so, before running any unknown code on your system be aware of risks (***you'll do under your responsability!***).
 
 ## How to use
-`~ ./beacondbg yourbeacon.obj parameters`
+```shell
+~ ./beacondbg
+beacondbg> load yourbeacon.obj
+beacondbg> run entrypoint
+```
 
+# TO BE IMPLEMENTED
 Cobalt Strike Beacons are encoded in a binary sequence extracted through `BeaconDataParse`and underlying APIs.
 
 Supported Data:
