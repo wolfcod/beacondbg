@@ -62,7 +62,6 @@ typedef struct coff_sym {
 #pragma pack(pop)
 #endif
 
-#pragma pack(pop)
 /* AMD64 Specific types */
 #define IMAGE_REL_AMD64_ABSOLUTE    0x0000
 #define IMAGE_REL_AMD64_ADDR64      0x0001
@@ -111,6 +110,12 @@ typedef struct coff_sym {
 #define IMAGE_SCN_CNT_UNINITIALIZED_DATA 0x00000080
 #define IMAGE_SCN_MEM_DISCARDABLE 0x02000000
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 int RunCOFF(char* functionname, unsigned char* coff_data, uint32_t filesize, unsigned char* argumentdata, int argumentSize);
 unsigned char* unhexlify(unsigned char* value, int *outlen);
+#ifdef __cplusplus
+}
+#endif
 #endif

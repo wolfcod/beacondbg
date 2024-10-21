@@ -1,6 +1,7 @@
 #ifndef __BEACONDBG_H_
 #define __BEACONDBG_H_
 
+#ifdef __cplusplus
 #include <vector>
 
 class beacondbg
@@ -21,7 +22,18 @@ public:
     bool setBreakPoint(void *address);
     bool clearBreakPoint(void *address);
 
+    bool run(std::string entryPoint, std::vector<unsigned char> args);
 private:
+    std::vector<unsigned char> beacon;
+
 };
+#else
+#endif
+
+///
+#ifdef __cplusplus
+extern "C"
+#endif
+unsigned char* InternalFunctions[30][2];
 
 #endif

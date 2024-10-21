@@ -6,6 +6,7 @@
 #include "quit.h"
 #include "breakpoints.h"
 #include "load.h"
+#include "run.h"
 
 int cli(beacondbg *emu)
 {
@@ -14,6 +15,7 @@ int cli(beacondbg *emu)
     CliCmd::registerCommand(new Breakpoint());
     CliCmd::registerCommand(new BreakpointList());
     CliCmd::registerCommand(new LoadCommand());
+    CliCmd::registerCommand(new RunCommand());
 
     while(true)
     {

@@ -3,6 +3,63 @@
 #include <stdio.h>
 #include <memory>
 
+
+/*
+ * Cobalt Strike 4.X BOF compatibility layer
+ * -----------------------------------------
+ * The whole point of these files are to allow beacon object files built for CS
+ * to run fine inside of other tools without recompiling.
+ *
+ * Built off of the beacon.h file provided to build for CS.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#ifdef _WIN32
+#define DEFAULTPROCESSNAME "rundll32.exe"
+#ifdef _WIN64
+#define X86PATH "SysWOW64"
+#define X64PATH "System32"
+#else
+#define X86PATH "System32"
+#define X64PATH "sysnative"
+#endif
+#endif
+
+ /* Data Parsing */
+EXTERN_C
+unsigned char* InternalFunctions[30][2] = {
+    {(unsigned char*)"BeaconDataParse", (unsigned char*)BeaconDataParse},
+    {(unsigned char*)"BeaconDataInt", (unsigned char*)BeaconDataInt},
+    {(unsigned char*)"BeaconDataShort", (unsigned char*)BeaconDataShort},
+    {(unsigned char*)"BeaconDataLength", (unsigned char*)BeaconDataLength},
+    {(unsigned char*)"BeaconDataExtract", (unsigned char*)BeaconDataExtract},
+    {(unsigned char*)"BeaconFormatAlloc", (unsigned char*)BeaconFormatAlloc},
+    {(unsigned char*)"BeaconFormatReset", (unsigned char*)BeaconFormatReset},
+    {(unsigned char*)"BeaconFormatFree", (unsigned char*)BeaconFormatFree},
+    {(unsigned char*)"BeaconFormatAppend", (unsigned char*)BeaconFormatAppend},
+    {(unsigned char*)"BeaconFormatPrintf", (unsigned char*)BeaconFormatPrintf},
+    {(unsigned char*)"BeaconFormatToString", (unsigned char*)BeaconFormatToString},
+    {(unsigned char*)"BeaconFormatInt", (unsigned char*)BeaconFormatInt},
+    {(unsigned char*)"BeaconPrintf", (unsigned char*)BeaconPrintf},
+    {(unsigned char*)"BeaconOutput", (unsigned char*)BeaconOutput},
+    {(unsigned char*)"BeaconUseToken", (unsigned char*)BeaconUseToken},
+    {(unsigned char*)"BeaconRevertToken", (unsigned char*)BeaconRevertToken},
+    {(unsigned char*)"BeaconIsAdmin", (unsigned char*)BeaconIsAdmin},
+    {(unsigned char*)"BeaconGetSpawnTo", (unsigned char*)BeaconGetSpawnTo},
+    {(unsigned char*)"BeaconSpawnTemporaryProcess", (unsigned char*)BeaconSpawnTemporaryProcess},
+    {(unsigned char*)"BeaconInjectProcess", (unsigned char*)BeaconInjectProcess},
+    {(unsigned char*)"BeaconInjectTemporaryProcess", (unsigned char*)BeaconInjectTemporaryProcess},
+    {(unsigned char*)"BeaconCleanupProcess", (unsigned char*)BeaconCleanupProcess},
+    {(unsigned char*)"toWideChar", (unsigned char*)toWideChar},
+    {(unsigned char*)"LoadLibraryA", (unsigned char*)LoadLibraryA},
+    {(unsigned char*)"GetProcAddress", (unsigned char*)GetProcAddress},
+    {(unsigned char*)"GetModuleHandleA", (unsigned char*)GetModuleHandleA},
+    {(unsigned char*)"FreeLibrary", (unsigned char*)FreeLibrary},
+    {(unsigned char*)"__C_specific_handler", NULL}
+
+};
 static int bswap32(int value)
 {
 #if defined(__x86_64__) || defined(_M_X64) || defined(_M_IX86)
@@ -171,7 +228,7 @@ void   BeaconOutput(int type, const char * data, int len)
 }
 void   BeaconPrintf(int type, const char * fmt, ...)
 {
-
+    printf(fmt);
 }
 
 

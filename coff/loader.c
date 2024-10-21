@@ -1,3 +1,15 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#if defined(_WIN32)
+#include <windows.h>
+#include <beacondbg.h>
+#include <beacon.h>
+#else
+#define BOOL int
+#endif
+
+#define size_t int
+
 /*
  * COFF Loader Project
  * -------------------
@@ -10,15 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(_WIN32)
-#include <windows.h>
-#include "beacon_compatibility.h"
-#else
-#define BOOL int
-#endif
-
 #include "loader.h"
-#include <beacondbg.h>
 
  /* Enable or disable debug output if testing or adding new relocation types */
 #ifdef DEBUG

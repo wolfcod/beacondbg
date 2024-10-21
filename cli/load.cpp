@@ -41,5 +41,6 @@ bool LoadCommand::run(beacondbg *emu)
 
     std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(input), {});
 
+    emu->load(buffer);
     return true;
 }

@@ -81,6 +81,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)tclap\ZshCompletionOutput.h">
       <Filter>tclap</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)beacon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)beacondbg.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)cli.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)config.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)tclap\Makefile.am">

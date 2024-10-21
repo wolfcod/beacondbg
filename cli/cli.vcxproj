@@ -215,12 +215,14 @@
     <ClCompile Include="clicmd.cpp" />
     <ClCompile Include="load.cpp" />
     <ClCompile Include="quit.cpp" />
+    <ClCompile Include="run.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="breakpoints.h" />
     <ClInclude Include="clicmd.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="quit.h" />
+    <ClInclude Include="run.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
