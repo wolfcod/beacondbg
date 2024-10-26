@@ -1,3 +1,12 @@
+/*
+ * Cobalt Strike 4.X BOF compatibility layer
+ * -----------------------------------------
+ * The whole point of these files are to allow beacon object files built for CS
+ * to run fine inside of other tools without recompiling.
+ *
+ * Built off of the beacon.h file provided to build for CS.
+ */
+
 #include <Windows.h>
 #include <intrin.h>
 #include <stdint.h>
@@ -8,14 +17,6 @@
 #include <string>
 #include <vector>
 
-/*
- * Cobalt Strike 4.X BOF compatibility layer
- * -----------------------------------------
- * The whole point of these files are to allow beacon object files built for CS
- * to run fine inside of other tools without recompiling.
- *
- * Built off of the beacon.h file provided to build for CS.
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -64,6 +65,7 @@ unsigned char* InternalFunctions[30][2] = {
     {(unsigned char*)"__C_specific_handler", NULL}
 
 };
+
 static int bswap32(int value)
 {
 #if defined(__x86_64__) || defined(_M_X64) || defined(_M_IX86)
@@ -359,7 +361,7 @@ BOOL   BeaconSpawnTemporaryProcess(BOOL x86, BOOL ignoreToken, STARTUPINFO * si,
     return FALSE;
 }
 
-void   BeaconCleanupProcess(PROCESS_INFORMATION * pInfo)
+void BeaconCleanupProcess(PROCESS_INFORMATION * pInfo)
 {
     PRINT_STACK_TRACE(BeaconCleanupProcess);
     if (pInfo != NULL) {
@@ -369,7 +371,7 @@ void   BeaconCleanupProcess(PROCESS_INFORMATION * pInfo)
 }
 
 /* Utility Functions */
-BOOL   toWideChar(char* src, wchar_t* dst, int max)
+BOOL toWideChar(char* src, wchar_t* dst, int max)
 {
     PRINT_STACK_TRACE(toWideChar);
     if (max < sizeof(wchar_t)) {
@@ -567,4 +569,28 @@ VOID BeaconDisableBeaconGate()
 VOID BeaconEnableBeaconGate()
 {
     PRINT_STACK_TRACE(BeaconEnableBeaconGate);
+}
+
+HMODULE WINAPI BeaconLoadLibraryA(LPCSTR lpLibFileName)
+{
+    PRINT_STACK_TRACE(LoadLibraryA);
+    return LoadLibraryA(lpLibFileName);
+}
+
+FARPROC WINAPI BeaconGetProcAddress(HMODULE hModule, LPCSTR lpProcName)
+{
+    PRINT_STACK_TRACE(GetProcAddress);
+    return GetProcAddress(hModule, lpProcName);
+}
+
+HMODULE WINAPI BeaonGetModuleHandleA(LPCSTR lpModuleName)
+{
+    PRINT_STACK_TRACE(GetModuleHandleA);
+    return GetModuleHandleA(lpModuleName);
+}
+
+BOOL WINAPI BeaconFreeLibrary(HMODULE hLibModule)
+{
+    PRINT_STACK_TRACE(FreeLibrary);
+    return FreeLibrary(hLibModule);
 }

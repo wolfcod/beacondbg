@@ -11,7 +11,7 @@ public:
 
     CliCmd* create(std::vector<std::string> args) override;
 
-    bool run(beacondbg* emu) override;
+    bool onCommand(beacondbg* emu) override;
 
 protected:
     RunCommand(std::string functionName);

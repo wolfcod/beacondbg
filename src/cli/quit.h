@@ -9,5 +9,5 @@ public:
     std::string command() override;
 
     CliCmd* create(std::vector<std::string> args) override;
-    bool run(beacondbg *emu) override;
+    bool onCommand(beacondbg *emu) override;
 };

@@ -113,7 +113,26 @@ typedef struct coff_sym {
 #ifdef __cplusplus
 extern "C" {
 #endif
-int RunCOFF(char* functionname, unsigned char* coff_data, uint32_t filesize, unsigned char* argumentdata, int argumentSize);
+
+typedef struct _bof_fd
+{
+    char* coff_data;
+    size_t coff_size;
+
+    struct coff_file_header* coff_header_ptr;
+
+    char** sectionMapping;
+
+    char* functionMapping;
+    int functionMappingCount;
+
+} bof_fd;
+
+bof_fd* load_bof(unsigned char* coff_data, uint32_t filesize);
+
+int RunCOFF(bof_fd *bof, char* functionname, unsigned char* argumentdata, int argumentSize);
+int remove_bof(bof_fd* bof);
+
 unsigned char* unhexlify(unsigned char* value, int *outlen);
 #ifdef __cplusplus
 }

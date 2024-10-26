@@ -32,7 +32,7 @@ CliCmd* Quit::create(std::vector<std::string> args)
     return new Quit();
 }
 
-bool Quit::run(beacondbg *emu)
+bool Quit::onCommand(beacondbg *emu)
 {
     std::exit(0);
 }

@@ -372,6 +372,13 @@ BOOL BeaconWriteProcessMemory(HANDLE hProcess, LPVOID lpBaseAddress, LPCVOID lpB
 VOID BeaconDisableBeaconGate();
 VOID BeaconEnableBeaconGate();
 
+
+/// Internal api used for breaks on specific events
+HMODULE WINAPI BeaconLoadLibraryA(LPCSTR lpLibFileName);
+FARPROC WINAPI BeaconGetProcAddress(HMODULE hModule, LPCSTR lpProcName);
+HMODULE WINAPI BeaonGetModuleHandleA(LPCSTR lpModuleName);
+BOOL WINAPI BeaconFreeLibrary(HMODULE hLibModule);
+
 /* Beacon User Data
  *
  * version format: 0xMMmmPP, where MM = Major, mm = Minor, and PP = Patch

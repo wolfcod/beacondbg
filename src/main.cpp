@@ -2,6 +2,7 @@
 #include <config.h>
 #include <beacondbg.h>
 #include <cli.h>
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -12,8 +13,14 @@ int main(int argc, char *argv[])
 
     cmdLine.parse(argc, argv);
 
-    beacondbg emu;
+    beacondbg* emu = beacondbg::create(std::cin, std::cout);
 
-    cli(&emu);
+    if (input.isSet()) {
+        if (emu->loadFromFile(input.getValue()) == false) {
+            return -1;
+        }
+    }
+
+    cli(emu);
     return 0;
 }

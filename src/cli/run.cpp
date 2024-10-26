@@ -30,7 +30,7 @@ CliCmd* RunCommand::create(std::vector<std::string> args)
 
 RunCommand::RunCommand(std::string functionName) : functionName_(functionName) {}
 
-bool RunCommand::run(beacondbg* emu)
+bool RunCommand::onCommand(beacondbg* emu)
 {
     std::vector<unsigned char> args;
 

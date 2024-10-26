@@ -12,7 +12,7 @@ public:
 
 public:
     CliCmd* create(std::vector<std::string> args) override;
-    bool run(beacondbg *emu) override;
+    bool onCommand(beacondbg *emu) override;
 };
 
 class BreakpointList : public CliCmd
@@ -28,7 +28,7 @@ public:
     
     CliCmd* create(std::vector<std::string> args) override;
     void add(const Breakpoint &breakpoint);
-    bool run(beacondbg *emu) override;
+    bool onCommand(beacondbg *emu) override;
 
 private:
     std::vector<BREAKPOINT*> breakpoints;

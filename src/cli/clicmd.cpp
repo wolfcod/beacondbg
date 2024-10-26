@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <beacondbg.h>
+#include <format>
 
 #include "clicmd.h"
 
@@ -11,6 +12,14 @@ std::map<std::string, CliCmd*>   commands;
 bool CliCmd::registerCommand(CliCmd *cmd)
 {
     commands[cmd->command()] = cmd;
+    return true;
+}
+
+bool CliCmd::registerCommand(std::initializer_list<CliCmd*> l)
+{
+    for (CliCmd* c : l)
+        registerCommand(c);
+
     return true;
 }
 
@@ -29,10 +38,6 @@ std::optional<CliCmd *> CliCmd::getCommand(std::string input)
         tokens.push_back(intermediate);
     }
     
-    // Printing the token vector
-    for(int i = 0; i < tokens.size(); i++)
-        std::cout << tokens[i] << '\n';
-
     std::map<std::string, CliCmd*>::iterator it = commands.find(tokens[0]);
 
     if (it == commands.end()) {
@@ -45,13 +50,14 @@ std::optional<CliCmd *> CliCmd::getCommand(std::string input)
     return instance;
 }
 
-bool Help::run(beacondbg *emu)
+bool Help::onCommand(beacondbg *emu)
 {
     std::map<std::string, CliCmd*>::iterator it = commands.begin();
 
-    for(; it != commands.end(); it++)
+    for (; it != commands.end(); it++)
     {
-        std::cout << it->second->command() << " " << it->second->help() << std::endl;
+        std::string msg = std::format("{} {}", it->second->command(), it->second->help());
+        emu->println(msg);
     }
     return true;
 }
