@@ -2,5 +2,5 @@ blank_issues_enabled: true
 
 contact_links:
   - name: beacondbg 🔐
-    url: https://github.com/wolfcod/beacondbg/issues
+    url: https://github.com/wolfcod/beacondbg/issues/new?Bug_Report.yml
     about: Please report bug/security vulnerabilities here.
