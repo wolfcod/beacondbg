@@ -45,6 +45,9 @@
     <ClCompile Include="cli\run.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="cli\args.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cli\breakpoints.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files\cli</Filter>
     </ClInclude>
     <ClInclude Include="cli\run.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="cli\args.h">
       <Filter>Header Files\cli</Filter>
     </ClInclude>
   </ItemGroup>

@@ -137,4 +137,17 @@ unsigned char* unhexlify(unsigned char* value, int *outlen);
 #ifdef __cplusplus
 }
 #endif
+
+struct BEACON_Functions
+{
+    const char* FunctionName;
+    unsigned char* FunctionAddress;
+    DWORD Flags;
+};
+///
+#ifdef __cplusplus
+extern "C"
+#endif
+struct BEACON_Functions InternalFunctions[30];
+
 #endif

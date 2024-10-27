@@ -26,6 +26,6 @@ bool RunCommand::onCommand(beacondbg* emu)
         return false;
 
     }
-    std::cout << std::endl;
+    emu->println("");
     return true;
 }

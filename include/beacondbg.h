@@ -21,6 +21,7 @@ enum class BeaconStatus
     ready,  /* the beacon is ready to accept any commands ... */
     loaded, /* a beacon is loaded */
     running,    /* a beacon is running.. so only breakpoints or terminate commands are accepted */
+    terminate      // the beacon will die
 };
 
 class beacondbg
@@ -38,7 +39,10 @@ public:
 
     /** load a beacon in the debugger */
     bool load(const std::string beaconName, const std::vector<unsigned char> &content);
+    bool loadArgs(const std::vector<unsigned char>& content);
     bool loadFromFile(const std::string &fileName);
+
+    bool loadBofPack(const std::string& fileName);
 
     /** unload the beacon from the memory */
     bool unload(const std::string &name);
@@ -71,11 +75,5 @@ private:
 };
 #else
 #endif
-
-///
-#ifdef __cplusplus
-extern "C"
-#endif
-unsigned char* InternalFunctions[30][2];
 
 #endif

@@ -9,6 +9,13 @@
 #endif
 
 #define size_t int
+#include "loader.h"
+
+///
+#ifdef __cplusplus
+extern "C"
+#endif
+struct BEACON_Functions InternalFunctions[30];
 
 /*
  * COFF Loader Project
@@ -100,7 +107,7 @@ void* process_symbol(char* symbolstring) {
         if(strcmp(symbolstring, "__C_specific_handler") == 0)
         {
             localfunc = symbolstring;
-            return InternalFunctions[29][1];
+            return InternalFunctions[29].FunctionAddress;
         }
         else
         {
@@ -111,9 +118,9 @@ void* process_symbol(char* symbolstring) {
          * return the pointer to the internal function*/
 #if defined(_WIN32)
         for (tempcounter = 0; tempcounter < 30; tempcounter++) {
-            if (InternalFunctions[tempcounter][0] != NULL) {
-                if (starts_with(localfunc, (char*)(InternalFunctions[tempcounter][0]))) {
-                    functionaddress = (void*)InternalFunctions[tempcounter][1];
+            if (InternalFunctions[tempcounter].FunctionName != NULL) {
+                if (starts_with(localfunc, (char*)(InternalFunctions[tempcounter].FunctionName))) {
+                    functionaddress = (void*)InternalFunctions[tempcounter].FunctionAddress;
                     return functionaddress;
                 }
             }
@@ -223,7 +230,7 @@ static int init_bof(bof_fd *bof)
     uint64_t longoffsetvalue = 0;
 
     HMODULE kern = GetModuleHandleA("kernel32.dll");
-    InternalFunctions[29][1] = (unsigned char*)GetProcAddress(kern, "__C_specific_handler");
+    InternalFunctions[29].FunctionAddress = (unsigned char*)GetProcAddress(kern, "__C_specific_handler");
     DEBUG_PRINT("found address of %x\n", InternalFunctions[29][1]);
 #ifdef _WIN32
     /* NOTE: I just picked a size, look to see what is max/normal. */

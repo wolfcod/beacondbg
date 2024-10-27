@@ -7,6 +7,7 @@
 #include "breakpoints.h"
 #include "load.h"
 #include "run.h"
+#include "args.h"
 
 
 /** this function return true if the dbg has errors... */
@@ -43,14 +44,15 @@ static bool handleError(beacondbg* emu)
 /// <returns></returns>
 int cli(beacondbg *emu)
 {
-    CliData supportedCommands[7] = {
+    CliData supportedCommands[8] = {
         { "help", "list of commands supported",[](beacondbg* emu, std::vector<std::string> args) -> CliCmd* {return new Help(emu, args); }},
         { "quit", "terminate session", [](beacondbg* emu, std::vector<std::string> args) ->CliCmd* { return new Quit(emu, args);  }},
         { "bp", "set a breakpoint", [](beacondbg* emu, std::vector<std::string> args) ->CliCmd* { return new Breakpoint(emu, args);  }},
         { "bl", "list all breakspoints", [](beacondbg* emu, std::vector<std::string> args) ->CliCmd* { return new BreakpointList(emu, args);  }},
         { "load", "load a beacon in memory", [](beacondbg *emu, std::vector<std::string> args)->CliCmd* { return new LoadCommand(emu, args);  }},
         { "unload", "unload a beacon from memory", [](beacondbg* emu, std::vector<std::string> args)->CliCmd* { return new UnloadCommand(emu, args); }},
-        { "run", "run a beacon (start a session)", [](beacondbg* emu, std::vector<std::string> args)->CliCmd* { return new RunCommand(emu, args); }}
+        { "run", "run a beacon (start a session)", [](beacondbg* emu, std::vector<std::string> args)->CliCmd* { return new RunCommand(emu, args); }},
+        { "args", "load arguments from file", [](beacondbg* emu, std::vector<std::string> args)->CliCmd* { return new ArgsCommand(emu, args);  }}
     };
 
 
@@ -59,7 +61,7 @@ int cli(beacondbg *emu)
 
     emu->setStatus(BeaconStatus::ready);
 
-    while(true)
+    while(emu->getStatus() != BeaconStatus::terminate)
     {
         emu->setError(BeaconError::none);
 

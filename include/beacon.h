@@ -376,7 +376,7 @@ VOID BeaconEnableBeaconGate();
 /// Internal api used for breaks on specific events
 HMODULE WINAPI BeaconLoadLibraryA(LPCSTR lpLibFileName);
 FARPROC WINAPI BeaconGetProcAddress(HMODULE hModule, LPCSTR lpProcName);
-HMODULE WINAPI BeaonGetModuleHandleA(LPCSTR lpModuleName);
+HMODULE WINAPI BeaconGetModuleHandleA(LPCSTR lpModuleName);
 BOOL WINAPI BeaconFreeLibrary(HMODULE hLibModule);
 
 /* Beacon User Data

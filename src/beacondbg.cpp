@@ -18,7 +18,7 @@ typedef struct _beacon_data
     HANDLE hBeacon;
     std::string name;
     std::vector<void*> breakpoints;
-    std::vector<std::string> args;
+    std::vector<unsigned char> args;
 } beacon_data;
 
 std::map<std::string, beacon_data> beacons;
@@ -75,6 +75,18 @@ bool beacondbg::load(const std::string beaconName, const std::vector<unsigned ch
     return false;
 }
 
+bool beacondbg::loadArgs(const std::vector<unsigned char>& content)
+{
+    if (beacons.empty()) {
+        this->setError(BeaconError::InvalidArguments);
+        return false;
+    }
+
+    beacon_data &data = beacons.at(0);
+    data.args = content;
+    return true;
+}
+
 bool beacondbg::loadFromFile(const std::string &fileName)
 {
     std::ifstream input(fileName, std::ios::binary);
@@ -104,6 +116,21 @@ bool beacondbg::loadFromFile(const std::string &fileName)
     std::string beaconName = fileName.substr(pathSeparator, dotExtension - pathSeparator);
 
     return this->load(beaconName, buffer);
+}
+
+bool beacondbg::loadBofPack(const std::string& fileName)
+{
+    std::ifstream input(fileName, std::ios::binary);
+
+    if (!input) {
+        std::string error = std::format("{} is not a valid path.", fileName);
+        this->error(error);
+        return false;
+    }
+
+    std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(input), {});
+
+    return this->loadArgs(buffer);
 }
 
 bool beacondbg::unload(const std::string &name)
@@ -152,6 +179,10 @@ bool beacondbg::run(std::string entryPoint, std::vector<unsigned char> args)
     beacon_data& current_beacon = beacons[beaconName_];
 
     RunBeacon_ptr RunBeacon = (RunBeacon_ptr)GetProcAddress(current_beacon.hModule, "RunBeacon");
+
+    if (args.size() == 0) {
+        args = current_beacon.args;
+    }
 
     RunBeacon(current_beacon.hBeacon, (char*)entryPoint.c_str(), args.data(), args.size());
     return true;

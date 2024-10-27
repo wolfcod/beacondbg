@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include "loader.h"
+#include "tbd.h"
 
 BOOL WINAPI DllMain(
     HINSTANCE hinstDLL,  // handle to DLL module
@@ -22,20 +23,12 @@ BOOL WINAPI DllMain(
     return TRUE;
 }
 
-struct ThreadBeaconData
-{
-    HANDLE hThread;
-    DWORD dwThreadId;
-
-    HANDLE hBeacon;
-    LPCSTR lpProcName;
-    LPVOID lpData;
-    SIZE_T Size;
-};
 
 static DWORD WINAPI ThreadBeacon(LPVOID lpParameter)
 {
-    ThreadBeaconData* tbd = (ThreadBeaconData*)lpParameter;
+    LPTBD tbd = (LPTBD)lpParameter;
+
+    TlsSetValue(0, (LPVOID)tbd);
 
     int r = RunCOFF((bof_fd*)tbd->hBeacon, (char*)tbd->lpProcName, (unsigned char*)tbd->lpData, (int)tbd->Size);
 
@@ -46,7 +39,7 @@ static DWORD WINAPI ThreadBeacon(LPVOID lpParameter)
 BOOL WINAPI RunBeacon(HANDLE hBeacon, LPCSTR lpProcName, LPVOID lpData, SIZE_T Size)
 {
     if (hBeacon != NULL) {
-        ThreadBeaconData* tbd = (ThreadBeaconData*)calloc(1, sizeof(ThreadBeaconData));
+        LPTBD tbd = (LPTBD)calloc(1, sizeof(TBD));
         if (tbd != NULL) {
             tbd->hBeacon = hBeacon;
             tbd->lpProcName = _strdup(lpProcName);

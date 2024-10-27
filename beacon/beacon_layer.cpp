@@ -21,6 +21,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include "loader.h"
+
 #ifdef _WIN32
 #define DEFAULTPROCESSNAME "rundll32.exe"
 #ifdef _WIN64
@@ -34,35 +36,35 @@
 
  /* Data Parsing */
 EXTERN_C
-unsigned char* InternalFunctions[30][2] = {
-    {(unsigned char*)"BeaconDataParse", (unsigned char*)BeaconDataParse},
-    {(unsigned char*)"BeaconDataInt", (unsigned char*)BeaconDataInt},
-    {(unsigned char*)"BeaconDataShort", (unsigned char*)BeaconDataShort},
-    {(unsigned char*)"BeaconDataLength", (unsigned char*)BeaconDataLength},
-    {(unsigned char*)"BeaconDataExtract", (unsigned char*)BeaconDataExtract},
-    {(unsigned char*)"BeaconFormatAlloc", (unsigned char*)BeaconFormatAlloc},
-    {(unsigned char*)"BeaconFormatReset", (unsigned char*)BeaconFormatReset},
-    {(unsigned char*)"BeaconFormatFree", (unsigned char*)BeaconFormatFree},
-    {(unsigned char*)"BeaconFormatAppend", (unsigned char*)BeaconFormatAppend},
-    {(unsigned char*)"BeaconFormatPrintf", (unsigned char*)BeaconFormatPrintf},
-    {(unsigned char*)"BeaconFormatToString", (unsigned char*)BeaconFormatToString},
-    {(unsigned char*)"BeaconFormatInt", (unsigned char*)BeaconFormatInt},
-    {(unsigned char*)"BeaconPrintf", (unsigned char*)BeaconPrintf},
-    {(unsigned char*)"BeaconOutput", (unsigned char*)BeaconOutput},
-    {(unsigned char*)"BeaconUseToken", (unsigned char*)BeaconUseToken},
-    {(unsigned char*)"BeaconRevertToken", (unsigned char*)BeaconRevertToken},
-    {(unsigned char*)"BeaconIsAdmin", (unsigned char*)BeaconIsAdmin},
-    {(unsigned char*)"BeaconGetSpawnTo", (unsigned char*)BeaconGetSpawnTo},
-    {(unsigned char*)"BeaconSpawnTemporaryProcess", (unsigned char*)BeaconSpawnTemporaryProcess},
-    {(unsigned char*)"BeaconInjectProcess", (unsigned char*)BeaconInjectProcess},
-    {(unsigned char*)"BeaconInjectTemporaryProcess", (unsigned char*)BeaconInjectTemporaryProcess},
-    {(unsigned char*)"BeaconCleanupProcess", (unsigned char*)BeaconCleanupProcess},
-    {(unsigned char*)"toWideChar", (unsigned char*)toWideChar},
-    {(unsigned char*)"LoadLibraryA", (unsigned char*)LoadLibraryA},
-    {(unsigned char*)"GetProcAddress", (unsigned char*)GetProcAddress},
-    {(unsigned char*)"GetModuleHandleA", (unsigned char*)GetModuleHandleA},
-    {(unsigned char*)"FreeLibrary", (unsigned char*)FreeLibrary},
-    {(unsigned char*)"__C_specific_handler", NULL}
+struct BEACON_Functions InternalFunctions[30] = {
+    {"BeaconDataParse", (unsigned char*)BeaconDataParse, 0},
+    {"BeaconDataInt", (unsigned char*)BeaconDataInt, 0},
+    {"BeaconDataShort", (unsigned char*)BeaconDataShort, 0},
+    {"BeaconDataLength", (unsigned char*)BeaconDataLength, 0},
+    {"BeaconDataExtract", (unsigned char*)BeaconDataExtract, 0},
+    {"BeaconFormatAlloc", (unsigned char*)BeaconFormatAlloc, 0},
+    {"BeaconFormatReset", (unsigned char*)BeaconFormatReset, 0},
+    {"BeaconFormatFree", (unsigned char*)BeaconFormatFree, 0},
+    {"BeaconFormatAppend", (unsigned char*)BeaconFormatAppend, 0},
+    {"BeaconFormatPrintf", (unsigned char*)BeaconFormatPrintf, 0},
+    {"BeaconFormatToString", (unsigned char*)BeaconFormatToString, 0},
+    {"BeaconFormatInt", (unsigned char*)BeaconFormatInt, 0},
+    {"BeaconPrintf", (unsigned char*)BeaconPrintf, 0},
+    {"BeaconOutput", (unsigned char*)BeaconOutput, 0},
+    {"BeaconUseToken", (unsigned char*)BeaconUseToken, 0},
+    {"BeaconRevertToken", (unsigned char*)BeaconRevertToken, 0},
+    {"BeaconIsAdmin", (unsigned char*)BeaconIsAdmin, 0},
+    {"BeaconGetSpawnTo", (unsigned char*)BeaconGetSpawnTo, 0},
+    {"BeaconSpawnTemporaryProcess", (unsigned char*)BeaconSpawnTemporaryProcess, 0},
+    {"BeaconInjectProcess", (unsigned char*)BeaconInjectProcess, 0},
+    {"BeaconInjectTemporaryProcess", (unsigned char*)BeaconInjectTemporaryProcess, 0},
+    {"BeaconCleanupProcess", (unsigned char*)BeaconCleanupProcess, 0},
+    {"toWideChar", (unsigned char*)toWideChar, 0},
+    {"LoadLibraryA", (unsigned char*)BeaconLoadLibraryA, 0},
+    {"GetProcAddress", (unsigned char*)BeaconGetProcAddress, 0},
+    {"GetModuleHandleA", (unsigned char*)BeaconGetModuleHandleA, 0},
+    {"FreeLibrary", (unsigned char*)BeaconFreeLibrary, 0},
+    {"__C_specific_handler", NULL, 0}
 
 };
 
@@ -583,7 +585,7 @@ FARPROC WINAPI BeaconGetProcAddress(HMODULE hModule, LPCSTR lpProcName)
     return GetProcAddress(hModule, lpProcName);
 }
 
-HMODULE WINAPI BeaonGetModuleHandleA(LPCSTR lpModuleName)
+HMODULE WINAPI BeaconGetModuleHandleA(LPCSTR lpModuleName)
 {
     PRINT_STACK_TRACE(GetModuleHandleA);
     return GetModuleHandleA(lpModuleName);

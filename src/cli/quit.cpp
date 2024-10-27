@@ -18,5 +18,6 @@ Quit::~Quit()
 
 bool Quit::onCommand(beacondbg *emu)
 {
-    std::exit(0);
+    emu->setStatus(BeaconStatus::terminate);
+    return true;
 }
