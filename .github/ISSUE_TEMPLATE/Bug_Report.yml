@@ -1,0 +1,60 @@
+name: "Bug report 🐛"
+description: Report errors or unexpected behavior
+labels: [Issue-Bug, Needs-Triage]
+type: Bug
+body:
+- type: markdown
+  attributes:
+    value: |
+      Please make sure to [search for existing issues](https://github.com/wolfcod/beacondbg/issues) and [check the FAQ](https://github.com/wolfcod/beacondbg/wiki/Frequently-Asked-Questions-(FAQ)) before filing a new one!
+
+      If this is an application crash, please also provide the BOF source code.
+
+- type: input
+  attributes:
+    label: beacondbg Version
+    placeholder: "0.1.0"
+    description: |
+      You can copy the version number from the beacondbg version.
+  validations:
+    required: false
+    
+- type: input
+  attributes:
+    label: Windows build number
+    placeholder: "10.0.22621.0"
+    description: |
+      Please run `ver` or `[Environment]::OSVersion`.
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: Other Software
+    description: If you're reporting a bug about our interaction with other software, what software? What versions?
+    placeholder: |
+      beacondbg v0.1.0 (include a code snippet if it would help!)
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: Steps to reproduce
+    placeholder: Tell us the steps required to trigger your bug.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Expected Behavior
+    description: If you want to include screenshots, paste them into the markdown editor below.
+    placeholder: What were you expecting?
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: Actual Behavior
+    placeholder: What happened instead?
+  validations:
+    required: true
