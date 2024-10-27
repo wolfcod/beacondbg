@@ -7,34 +7,25 @@
 
 #include "run.h"
 
-std::string RunCommand::command()
+RunCommand::RunCommand(beacondbg* emu, std::vector<std::string> args)
 {
-    return std::string("run");
-}
-
-std::string RunCommand::help()
-{
-    return std::string("run the entrypoint of beacon");
-}
-
-CliCmd* RunCommand::create(std::vector<std::string> args)
-{
-    if (args.size() == 0)
-    {
-        std::cout << "Error. Argument required. function name" << std::endl;
-        return nullptr;
+    if (args.size() == 0) {
+        emu->setError(BeaconError::InvalidArguments);
+        return;
     }
 
-    return new RunCommand(args[0]);
+    functionName_ = args.at(0);
 }
-
-RunCommand::RunCommand(std::string functionName) : functionName_(functionName) {}
 
 bool RunCommand::onCommand(beacondbg* emu)
 {
     std::vector<unsigned char> args;
 
-    emu->run(functionName_, args);
+    if (emu->run(functionName_, args) == false) {
+        emu->setError(BeaconError::EntryPointNotFound);
+        return false;
+
+    }
     std::cout << std::endl;
     return true;
 }

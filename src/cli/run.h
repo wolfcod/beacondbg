@@ -3,18 +3,10 @@
 class RunCommand : public CliCmd
 {
 public:
-    RunCommand() = default;
+    RunCommand(beacondbg* emu, std::vector<std::string> args);
     ~RunCommand() = default;
 
-    std::string command() override;
-    std::string help() override;
-
-    CliCmd* create(std::vector<std::string> args) override;
-
     bool onCommand(beacondbg* emu) override;
-
-protected:
-    RunCommand(std::string functionName);
 
 private:
     std::string functionName_;

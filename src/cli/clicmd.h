@@ -6,20 +6,25 @@
 
 class beacondbg;
 
+class CliCmd;
+
+typedef CliCmd* (*create_callback)(beacondbg* emu, std::vector<std::string> args);
+
+struct CliData
+{
+    std::string command;
+    std::string help;
+    create_callback create;
+};
+
 class CliCmd
 {
 public:
-    static bool registerCommand(std::initializer_list<CliCmd*> l);
-    static bool registerCommand(CliCmd* cmd);
-    static std::optional<CliCmd*> getCommand(std::string input);
+    static bool registerCommand(std::initializer_list<CliData*> l);
+    static bool registerCommand(CliData* cmd);
+    static std::optional<create_callback> getCommand(std::string input, std::vector<std::string> &args);
 
 public:
-    virtual std::string help() = 0;    //
-    virtual std::string command() = 0; // command
-
-    // This has to be used only in the final instance
-    virtual CliCmd* create(std::vector<std::string> args) = 0;
-
     virtual bool onCommand(beacondbg *emu) = 0;
 
     virtual ~CliCmd() = default;
@@ -29,16 +34,10 @@ public:
 class Help : public CliCmd
 {
     public:
-        Help() = default;
+        Help(beacondbg *emu, std::vector<std::string> args);
         ~Help() = default;
 
-        std::string help() override;
-        std::string command() override;
-
         bool onCommand(beacondbg *) override;
-        
-        CliCmd *create(std::vector<std::string> args) override;
-
 };
 
 #endif

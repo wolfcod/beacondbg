@@ -3,18 +3,10 @@
 class LoadCommand : public CliCmd
 {
 public:
-    LoadCommand() = default;
+    LoadCommand(beacondbg *emu, std::vector<std::string> args);
     ~LoadCommand() = default;
 
-    std::string command() override;
-    std::string help() override;
-
-    CliCmd *create(std::vector<std::string> args) override;
-
     bool onCommand(beacondbg *emu) override;
-
-protected:
-    LoadCommand(std::string fileName);
 
 private:
     std::string fileName_;
@@ -23,19 +15,10 @@ private:
 class UnloadCommand : public CliCmd
 {
 public:
-    UnloadCommand() = default;
+    UnloadCommand(beacondbg *emu, std::vector<std::string> args);
     ~UnloadCommand() = default;
 
-    std::string command() override;
-    std::string help() override;
-
-    CliCmd* create(std::vector<std::string> args) override;
-
     bool onCommand(beacondbg* emu) override;
-
-protected:
-    UnloadCommand(std::string args);
-
 private:
     std::string  beaconName_;
 };

@@ -1,13 +1,11 @@
+#include "clicmd.h"
+
 class Quit
     : public CliCmd
 {
 public:
-    Quit();
+    Quit(beacondbg* emu, std::vector<std::string> args);
     ~Quit();
 
-    std::string help() override;
-    std::string command() override;
-
-    CliCmd* create(std::vector<std::string> args) override;
     bool onCommand(beacondbg *emu) override;
 };

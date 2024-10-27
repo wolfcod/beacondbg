@@ -26,42 +26,34 @@ struct BREAKPOINT
     std::string symbolName; /* breakpoint function name.. can be Library!SymbolName or SymbolName or just it's address */
 };
 
-std::string Breakpoint::help()
+Breakpoint::Breakpoint(beacondbg* emu, std::vector<std::string> args)
 {
-    return std::string("Set a breakpoint");
+    if (args.size() == 0) {
+        emu->setError(BeaconError::InvalidArguments);
+        return;
+    }
+
 }
 
 bool Breakpoint::onCommand(beacondbg *emu)
 {
-    std::cout << "Not yet implemented." << std::endl;
+    emu->error("bp not yet implemented");
     return true;
-}
-
-
-CliCmd* Breakpoint::create(std::vector<std::string> args)
-{
-    return new Breakpoint();
-}
-
-std::string Breakpoint::command()
-{
-    return std::string("bp");
-}
-
-std::string BreakpointList::help()
-{
-    return std::string("Return a list of breakpoints.");
-}
-
-std::string BreakpointList::command()
-{
-    return std::string("bl");
 }
 
 template<typename... Args>
 std::string Format(const std::string_view message, Args... formatItems)
 {
     return std::vformat(message, std::make_format_args(std::forward<Args>(formatItems)...));
+}
+
+BreakpointList::BreakpointList(beacondbg* emu, std::vector<std::string> args)
+{
+    if (args.size() == 0) {
+        //emu->setError(BeaconErrors::InvalidArguments);
+        return;
+    }
+
 }
 
 bool BreakpointList::onCommand(beacondbg *emu)
@@ -82,9 +74,4 @@ bool BreakpointList::onCommand(beacondbg *emu)
     }
 
     return true;
-}
-
-CliCmd* BreakpointList::create(std::vector<std::string> args)
-{
-    return new BreakpointList();
 }

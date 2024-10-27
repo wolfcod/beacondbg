@@ -5,54 +5,30 @@
 
 #include "load.h"
 
-std::string LoadCommand::command()
+LoadCommand::LoadCommand(beacondbg *emu, std::vector<std::string> args)
 {
-    return std::string("load");
-}
-    
-std::string LoadCommand::help()
-{
-    return std::string("load coff-path");
-}
-
-CliCmd *LoadCommand::create(std::vector<std::string> args)
-{
-    if (args.size() == 0)
-    {
-        return nullptr;
+    if (args.size() == 0) {
+        emu->setError(BeaconError::InvalidArguments);
+        return;
     }
 
-    return new LoadCommand(args[0]);
+    fileName_ = args.at(0);
 }
-
-LoadCommand::LoadCommand(std::string fileName) : fileName_(fileName) {}
 
 bool LoadCommand::onCommand(beacondbg *emu)
 {
     return emu->loadFromFile(fileName_);
 }
 
-std::string UnloadCommand::command()
+UnloadCommand::UnloadCommand(beacondbg* emu, std::vector<std::string> args)
 {
-    return std::string("unload");
-}
-
-std::string UnloadCommand::help()
-{
-    return std::string("unload beacon-name");
-}
-
-CliCmd* UnloadCommand::create(std::vector<std::string> args)
-{
-    if (args.size() == 0)
-    {
-        return nullptr;
+    if (args.size() == 0) {
+        emu->setError(BeaconError::InvalidArguments);
+        return;
     }
 
-    return new UnloadCommand(args[0]);
+    beaconName_ = args.at(0);
 }
-
-UnloadCommand::UnloadCommand(std::string beaconName) : beaconName_(beaconName) {}
 
 bool UnloadCommand::onCommand(beacondbg* emu)
 {

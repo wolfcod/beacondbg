@@ -734,3 +734,38 @@ bof_fd* load_bof(unsigned char* coff_data, uint32_t filesize)
 
     return fd;
 }
+
+int remove_bof(bof_fd* bof)
+{
+    if (bof == NULL)
+        return -1;
+
+    
+    /* Cleanup the allocated memory */
+    uint16_t tempcounter = 0;
+
+#ifdef _WIN32
+    cleanup :
+    if (bof->sectionMapping != NULL) {
+        for (tempcounter = 0; tempcounter < bof->coff_header_ptr->NumberOfSections; tempcounter++) {
+            if (bof->sectionMapping[tempcounter] != NULL) {
+                VirtualFree(bof->sectionMapping[tempcounter], 0, MEM_RELEASE);
+            }
+        }
+        free(bof->sectionMapping);
+        bof->sectionMapping = NULL;
+    }
+#ifdef DEBUG
+    if (sectionSize) {
+        free(sectionSize);
+        sectionSize = NULL;
+    }
+#endif
+    if (bof->functionMapping) {
+        VirtualFree(bof->functionMapping, 0, MEM_RELEASE);
+    }
+    bof->functionMapping = NULL;
+    bof->functionMappingCount = 0;
+#endif
+    return 0;
+}

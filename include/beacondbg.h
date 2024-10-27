@@ -4,6 +4,23 @@
 #ifdef __cplusplus
 #include <vector>
 
+enum class BeaconError
+{
+    InvalidArguments,
+    FileNotFound,
+    FileNotValid,
+    EntryPointNotFound,
+    InvalidStatus,  // this command cannot be executed in the current status
+    none    // latest arguments.. everything is fine
+};
+
+enum class BeaconStatus
+{
+    ready,  /* the beacon is ready to accept any commands ... */
+    loaded, /* a beacon is loaded */
+    running,    /* a beacon is running.. so only breakpoints or terminate commands are accepted */
+};
+
 class beacondbg
 {
 public:
@@ -11,6 +28,11 @@ public:
 
 public:
     ~beacondbg() = default;
+
+    inline void setError(BeaconError value) { this->errorStatus = value; }
+    inline BeaconError getError() { return this->errorStatus; }
+    inline void setStatus(BeaconStatus value) { this->beaconStatus = value; }
+    inline BeaconStatus getStatus() { return this->beaconStatus; }
 
     /** load a beacon in the debugger */
     bool load(const std::string beaconName, const std::vector<unsigned char> &content);
@@ -42,6 +64,8 @@ private:
 
 private:
     beacondbg(std::istream& input, std::ostream& output);
+    BeaconError errorStatus;
+    BeaconStatus beaconStatus;
 };
 #else
 #endif

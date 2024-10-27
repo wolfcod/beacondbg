@@ -17,7 +17,7 @@
 typedef struct _beacon_data
 {
     std::string name;
-    bof_fd *fd;
+    bof_fd* fd = NULL;
     std::vector<void*> breakpoints;
     std::vector<std::string> args;
 } beacon_data;
@@ -99,6 +99,7 @@ bool beacondbg::unload(const std::string &name)
         beacon_data& beacon = beacons[name];
 
         remove_bof(beacon.fd);  // destroy the beacon data
+        beacon.fd = nullptr;
         beacons.erase(name);
         
         return true;

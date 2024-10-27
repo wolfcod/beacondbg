@@ -7,27 +7,24 @@
 
 #include "clicmd.h"
 
-std::map<std::string, CliCmd*>   commands;
+static std::map<std::string, CliData*> commands;
 
-bool CliCmd::registerCommand(CliCmd *cmd)
+bool CliCmd::registerCommand(CliData *cmd)
 {
-    commands[cmd->command()] = cmd;
+    commands[cmd->command] = cmd;
     return true;
 }
 
-bool CliCmd::registerCommand(std::initializer_list<CliCmd*> l)
+bool CliCmd::registerCommand(std::initializer_list<CliData*> l)
 {
-    for (CliCmd* c : l)
+    for (CliData* c : l)
         registerCommand(c);
 
     return true;
 }
 
-std::optional<CliCmd *> CliCmd::getCommand(std::string input)
-{
-     // Vector of string to save tokens
-    std::vector<std::string> tokens;
-    
+std::optional<create_callback> CliCmd::getCommand(std::string input, std::vector<std::string> &tokens)
+{    
     // stringstream class check1
     std::stringstream check1(input);
     
@@ -38,7 +35,7 @@ std::optional<CliCmd *> CliCmd::getCommand(std::string input)
         tokens.push_back(intermediate);
     }
     
-    std::map<std::string, CliCmd*>::iterator it = commands.find(tokens[0]);
+    std::map<std::string, CliData*>::iterator it = commands.find(tokens[0]);
 
     if (it == commands.end()) {
         return std::nullopt;
@@ -46,33 +43,22 @@ std::optional<CliCmd *> CliCmd::getCommand(std::string input)
 
     tokens.erase(tokens.begin());
 
-    CliCmd *instance = it->second->create(tokens);
-    return instance;
+    return it->second->create;
+}
+
+Help::Help(beacondbg* emu, std::vector<std::string> args)
+{
+
 }
 
 bool Help::onCommand(beacondbg *emu)
 {
-    std::map<std::string, CliCmd*>::iterator it = commands.begin();
+    std::map<std::string, CliData*>::iterator it = commands.begin();
 
     for (; it != commands.end(); it++)
     {
-        std::string msg = std::format("{} {}", it->second->command(), it->second->help());
+        std::string msg = std::format("{} {}", it->second->command, it->second->help);
         emu->println(msg);
     }
     return true;
-}
-
-CliCmd *Help::create(std::vector<std::string> args)
-{
-    return new Help();
-}
-
-std::string Help::command()
-{
-    return std::string("help");
-}
-
-std::string Help::help()
-{
-    return std::string("Print a list of commands available");
 }

@@ -6,7 +6,7 @@
 #include "clicmd.h"
 #include "quit.h"
 
-Quit::Quit()
+Quit::Quit(beacondbg* emu, std::vector<std::string> args)
 {
 
 }
@@ -14,22 +14,6 @@ Quit::Quit()
 Quit::~Quit()
 {
 
-}
-
-std::string Quit::help()
-{
-    return std::string("Terminate the current application.");
-
-}
-
-std::string Quit::command()
-{
-    return std::string("quit");
-}
-
-CliCmd* Quit::create(std::vector<std::string> args)
-{
-    return new Quit();
 }
 
 bool Quit::onCommand(beacondbg *emu)

@@ -1,17 +1,14 @@
+#include "clicmd.h"
 
 struct BREAKPOINT;
 
 class Breakpoint : public CliCmd
 {
 public:
-    Breakpoint() = default;
+    Breakpoint(beacondbg* emu, std::vector<std::string> args);
     ~Breakpoint() = default;
 
-    std::string help() override;
-    std::string command() override;   
-
 public:
-    CliCmd* create(std::vector<std::string> args) override;
     bool onCommand(beacondbg *emu) override;
 };
 
@@ -20,13 +17,9 @@ class BreakpointList : public CliCmd
     friend class Breakpoint;
 
 public:
-    BreakpointList() = default;
+    BreakpointList(beacondbg *emu, std::vector<std::string> args);
     ~BreakpointList() = default;
 
-    std::string help() override;
-    std::string command() override;
-    
-    CliCmd* create(std::vector<std::string> args) override;
     void add(const Breakpoint &breakpoint);
     bool onCommand(beacondbg *emu) override;
 
