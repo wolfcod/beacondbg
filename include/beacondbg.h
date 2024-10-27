@@ -6,10 +6,12 @@
 
 enum class BeaconError
 {
+    CriticalError,  /** beacon.dll not found.. cannot interact with a beacon */
     InvalidArguments,
     FileNotFound,
     FileNotValid,
     EntryPointNotFound,
+    InvalidAddress,
     InvalidStatus,  // this command cannot be executed in the current status
     none    // latest arguments.. everything is fine
 };

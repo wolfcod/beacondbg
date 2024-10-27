@@ -11,10 +11,6 @@ typedef void* LPVOID;
 #include <iostream>
 #include <beacondbg.h>
 #include <format>
-#include <string_view>
-using namespace std::string_literals;
-using namespace std::string_view_literals;
-
 #include "clicmd.h"
 #include "breakpoints.h"
 
@@ -33,6 +29,19 @@ Breakpoint::Breakpoint(beacondbg* emu, std::vector<std::string> args)
         return;
     }
 
+    if (emu->getStatus() != BeaconStatus::loaded) {
+        emu->setError(BeaconError::InvalidStatus);
+        return;
+    }
+
+    std::string address = args[0];
+
+    if (args[0].starts_with("0x")) {
+        long addr = std::stoul(address, nullptr, 16);
+        if (addr == 0) {
+            emu->setError(BeaconError::InvalidAddress);
+        }
+    }
 }
 
 bool Breakpoint::onCommand(beacondbg *emu)

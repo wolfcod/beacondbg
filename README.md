@@ -49,7 +49,7 @@ From command line:
 ## Components
 - [Templatized C++ Command Line Parser](https://tclap.sourceforge.net)
 - [Cobalt Strike Beacon Header](https://github.com/Cobalt-Strike/bof_template/blob/main/beacon.h)
-
+- beacon: Emulate the beacon engine.. which can be injected locally or remote
 
 ## Output
 The beacon output is directly printed on your prompt.

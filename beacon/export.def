@@ -1,0 +1,6 @@
+LIBRARY beacon
+
+EXPORTS
+	RunBeacon
+	LoadBeacon
+	CloseBeacon

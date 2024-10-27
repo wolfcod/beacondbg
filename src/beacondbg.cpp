@@ -12,12 +12,11 @@
 #include <map>
 #include <stack>
 
-#include "../coff/loader.h"
-
 typedef struct _beacon_data
 {
+    HMODULE hModule;
+    HANDLE hBeacon;
     std::string name;
-    bof_fd* fd = NULL;
     std::vector<void*> breakpoints;
     std::vector<std::string> args;
 } beacon_data;
@@ -27,7 +26,7 @@ std::map<std::string, beacon_data> beacons;
 beacondbg::beacondbg(std::istream& input, std::ostream &output)
     : in(input), out(output), pid(0)
 {
-  
+
 }
 
 /// <summary>
@@ -45,17 +44,34 @@ beacondbg * beacondbg::create(std::istream& input, std::ostream& output)
     return instance;
 }
 
+typedef BOOL (WINAPI *RunBeacon_ptr)(HANDLE hBeacon, LPCSTR lpProcName, LPVOID lpData, SIZE_T Size);
+typedef HANDLE (WINAPI* LoadBeacon_ptr)(LPVOID lpData, SIZE_T Size);
+typedef BOOL(WINAPI* CloseBeacon_ptr)(HANDLE hBeacon);
+
 bool beacondbg::load(const std::string beaconName, const std::vector<unsigned char> &content)
 {
-    bof_fd *fd = load_bof((unsigned char *)content.data(), content.size());
+    if (beacons.find(beaconName) == beacons.end()) {
+        HMODULE hModule = LoadLibraryA("beacon.dll");
+        if (hModule == NULL) {
+            this->setError(BeaconError::CriticalError);
+            return false;
+        }
 
-    if (fd != NULL)
-    {
-        beacons[beaconName].fd = fd;
-        beacons[beaconName].name = beaconName;
+        LoadBeacon_ptr LoadBeacon = (LoadBeacon_ptr)GetProcAddress(hModule, "LoadBeacon");
+        
+        HANDLE hBeacon = LoadBeacon((LPVOID)content.data(), content.size());
+
+        if (hBeacon != NULL) {
+            beacons[beaconName].hModule = hModule;
+            beacons[beaconName].name = beaconName;
+            beacons[beaconName].hBeacon = hBeacon;
+            beaconName_ = beaconName;
+        }
+        else {
+            this->setError(BeaconError::FileNotValid);
+        }
     }
 
-    beaconName_ = beaconName;
     return false;
 }
 
@@ -84,11 +100,8 @@ bool beacondbg::loadFromFile(const std::string &fileName)
     if (dotExtension == std::string::npos) {
         dotExtension = fileName.length();
     }
-    else {
-        dotExtension++;
-    }
-
-    std::string beaconName = fileName.substr(pathSeparator, pathSeparator - dotExtension);
+ 
+    std::string beaconName = fileName.substr(pathSeparator, dotExtension - pathSeparator);
 
     return this->load(beaconName, buffer);
 }
@@ -97,11 +110,11 @@ bool beacondbg::unload(const std::string &name)
 {
     if (beacons.find(name) != beacons.end()) {
         beacon_data& beacon = beacons[name];
+        CloseBeacon_ptr CloseBeacon = (CloseBeacon_ptr)GetProcAddress(beacon.hModule, "CloseBeacon");
 
-        remove_bof(beacon.fd);  // destroy the beacon data
-        beacon.fd = nullptr;
+        CloseBeacon(beacon.hBeacon);
+        beacon.hBeacon = nullptr;
         beacons.erase(name);
-        
         return true;
     }
     return false;
@@ -138,7 +151,9 @@ bool beacondbg::run(std::string entryPoint, std::vector<unsigned char> args)
 
     beacon_data& current_beacon = beacons[beaconName_];
 
-    RunCOFF(current_beacon.fd, (char *) entryPoint.c_str(), args.data(), args.size());
+    RunBeacon_ptr RunBeacon = (RunBeacon_ptr)GetProcAddress(current_beacon.hModule, "RunBeacon");
+
+    RunBeacon(current_beacon.hBeacon, (char*)entryPoint.c_str(), args.data(), args.size());
     return true;
 }
 
@@ -167,17 +182,17 @@ void beacondbg::error(const std::string fmt)
 
 bool beacondbg::prompt()
 {
-    std::string msg = "]";
+    std::string msg;
 
     if (this->pid != 0) {
         msg += std::format("\033[32m{}\033[39m", this->pid);
     }
 
     if (this->beaconName_.length() > 0) {
-        msg += std::format("{}", this->beaconName_);
+        msg += std::format("\033[32m{}", this->beaconName_);
     }
 
-    msg += "]> ";
+    msg += "\033[39m>";
 
     out << msg;
     return true;

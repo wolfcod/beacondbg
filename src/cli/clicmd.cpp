@@ -24,7 +24,10 @@ bool CliCmd::registerCommand(std::initializer_list<CliData*> l)
 }
 
 std::optional<create_callback> CliCmd::getCommand(std::string input, std::vector<std::string> &tokens)
-{    
+{   
+    if (input.size() == 0)
+        return std::nullopt;
+
     // stringstream class check1
     std::stringstream check1(input);
     
@@ -57,7 +60,7 @@ bool Help::onCommand(beacondbg *emu)
 
     for (; it != commands.end(); it++)
     {
-        std::string msg = std::format("{} {}", it->second->command, it->second->help);
+        std::string msg = std::format("\033[32m{}\t\033[39m{}", it->second->command, it->second->help);
         emu->println(msg);
     }
     return true;

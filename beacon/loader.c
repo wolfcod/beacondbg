@@ -74,46 +74,6 @@ errcase:
     return retval;
 }
 
-
-
-/* Helper to just get the contents of a file, used for testing. Real
- * implementations of this in an agent would use the tasking from the
- * C2 server for this */
-unsigned char* getContents(char* filepath, uint32_t* outsize) {
-    FILE *fin = NULL;
-    uint32_t fsize = 0;
-    size_t readsize = 0;
-    unsigned char* buffer = NULL;
-    unsigned char* tempbuffer = NULL;
-
-    fin = fopen(filepath, "rb");
-    if (fin == NULL) {
-        return NULL;
-    }
-    fseek(fin, 0, SEEK_END);
-    fsize = ftell(fin);
-    fseek(fin, 0, SEEK_SET);
-    tempbuffer = calloc(fsize, 1);
-    if (tempbuffer == NULL) {
-        fclose(fin);
-        return NULL;
-    }
-    memset(tempbuffer, 0, fsize);
-    readsize = fread(tempbuffer, 1, fsize, fin);
-
-    fclose(fin);
-    buffer = calloc(readsize, 1);
-    if (buffer == NULL) {
-        free(tempbuffer);
-        return NULL;
-    }
-    memset(buffer, 0, readsize);
-    memcpy(buffer, tempbuffer, readsize - 1);
-    free(tempbuffer);
-    *outsize = fsize;
-    return buffer;
-}
-
 static BOOL starts_with(const char* string, const char* substring) {
     return strncmp(string, substring, strlen(substring)) == 0;
 }

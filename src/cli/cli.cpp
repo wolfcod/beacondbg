@@ -23,6 +23,9 @@ static bool handleError(beacondbg* emu)
         case BeaconError::EntryPointNotFound:
             emu->error("invalid entry point");
             break;
+        case BeaconError::InvalidAddress:
+            emu->error("invalid address");
+            break;
         default:
             emu->error("Invalid error status.");
             break;
@@ -67,9 +70,11 @@ int cli(beacondbg *emu)
 
         std::optional<create_callback> opt = CliCmd::getCommand(input, args);
 
-        if (!opt) {
-            std::string str = "Invalid command " + input;
-            emu->println(str);
+        if (!opt.has_value()) {
+            if (input.size()) {
+                std::string str = "Invalid command " + input;
+                emu->println(str);
+            }
         } else {
             CliCmd* cmd = (*opt)(emu, args);
            
