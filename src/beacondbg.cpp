@@ -12,14 +12,9 @@
 #include <map>
 #include <stack>
 
-typedef struct _beacon_data
-{
-    HMODULE hModule;
-    HANDLE hBeacon;
-    std::string name;
-    std::vector<void*> breakpoints;
-    std::vector<unsigned char> args;
-} beacon_data;
+#include "beacondbg.h"
+#include "beacon_data.h"
+
 
 std::map<std::string, beacon_data> beacons;
 
@@ -48,6 +43,8 @@ typedef BOOL (WINAPI *RunBeacon_ptr)(HANDLE hBeacon, LPCSTR lpProcName, LPVOID l
 typedef HANDLE (WINAPI* LoadBeacon_ptr)(LPVOID lpData, SIZE_T Size);
 typedef BOOL(WINAPI* CloseBeacon_ptr)(HANDLE hBeacon);
 
+typedef BOOL(WINAPI* FindFirstSymbol_ptr)(HANDLE hBeacon, LPVOID* lpSymbolName, LPVOID* Address);
+
 bool beacondbg::load(const std::string beaconName, const std::vector<unsigned char> &content)
 {
     if (beacons.find(beaconName) == beacons.end()) {
@@ -66,6 +63,7 @@ bool beacondbg::load(const std::string beaconName, const std::vector<unsigned ch
             beacons[beaconName].name = beaconName;
             beacons[beaconName].hBeacon = hBeacon;
             beaconName_ = beaconName;
+            this->setStatus(BeaconStatus::loaded);
         }
         else {
             this->setError(BeaconError::FileNotValid);
@@ -188,6 +186,53 @@ bool beacondbg::run(std::string entryPoint, std::vector<unsigned char> args)
     return true;
 }
 
+extern void disassemble(uint64_t addr, beacon_data& beacon);
+
+bool beacondbg::disassemble(std::string symbol, std::vector<unsigned char> args)
+{
+    unsigned char* beaconData = nullptr; size_t beaconSize = 0;
+
+    if (beacons.find(beaconName_) == beacons.end()) {
+        this->error(std::format("{} undefined.", beaconName_));
+        return false;
+    }
+
+    beacon_data& current_beacon = beacons[beaconName_];
+
+    if (current_beacon.symbols.find(symbol) == current_beacon.symbols.end()) {
+        this->error(std::format("symbol {} not found.", symbol));
+        return false;
+    }
+
+    ::disassemble((uint64_t)current_beacon.symbols[symbol], current_beacon);
+    return true;
+}
+
+bool beacondbg::enumerateSymbols()
+{
+    if (beacons.find(beaconName_) == beacons.end()) {
+        return false;
+    }
+
+    beacon_data& current_beacon = beacons[beaconName_];
+
+    FindFirstSymbol_ptr FindFirstSymbol = (FindFirstSymbol_ptr)GetProcAddress(current_beacon.hModule, "FindFirstSymbol");
+    FindFirstSymbol_ptr FindNextSymbol = (FindFirstSymbol_ptr)GetProcAddress(current_beacon.hModule, "FindNextSymbol");
+
+    LPVOID SymbolName; LPVOID SymbolAddress;
+
+    if (FindFirstSymbol(current_beacon.hBeacon, &SymbolName, &SymbolAddress)) do {
+        if (SymbolAddress == NULL)
+            continue;
+
+        std::string line = std::format("\033[32m{}\t\033[31m0x{:x}", (const char*)SymbolName, (ULONG_PTR)SymbolAddress);
+        this->println(line);
+
+        current_beacon.symbols.insert({ std::string((const char*)SymbolName), (ULONG_PTR)SymbolAddress });
+    } while (FindNextSymbol(current_beacon.hBeacon, &SymbolName, &SymbolAddress));
+
+    this->print("\033[39m>");
+}
 void beacondbg::print(const std::string fmt)
 {
     out << fmt;

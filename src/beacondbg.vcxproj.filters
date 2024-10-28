@@ -48,6 +48,15 @@
     <ClCompile Include="cli\args.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="cli\sym.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="disassemble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cli\disasm.cpp">
+      <Filter>Source Files\cli</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cli\breakpoints.h">
@@ -66,6 +75,15 @@
       <Filter>Header Files\cli</Filter>
     </ClInclude>
     <ClInclude Include="cli\args.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="cli\sym.h">
+      <Filter>Header Files\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="beacon_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cli\disasm.h">
       <Filter>Header Files\cli</Filter>
     </ClInclude>
   </ItemGroup>

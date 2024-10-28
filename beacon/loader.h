@@ -126,6 +126,7 @@ typedef struct _bof_fd
     char* functionMapping;
     int functionMappingCount;
 
+    DWORD symbol_position;
 } bof_fd;
 
 bof_fd* load_bof(unsigned char* coff_data, uint32_t filesize);

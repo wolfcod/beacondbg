@@ -54,6 +54,8 @@ public:
     bool clearBreakPoint(void *address);
 
     bool run(std::string entryPoint, std::vector<unsigned char> args);
+    bool disassemble(std::string symbol, std::vector<unsigned char> args);
+    bool enumerateSymbols();
 
     void print(const std::string fmt);
     void println(const std::string fmt);

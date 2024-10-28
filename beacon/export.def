@@ -4,3 +4,7 @@ EXPORTS
 	RunBeacon
 	LoadBeacon
 	CloseBeacon
+
+	FindFirstSymbol
+	FindNextSymbol
+	SetBreakPoint
